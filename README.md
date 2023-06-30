@@ -57,6 +57,6 @@ ALTER USER 'sys_temp'@'localhost' IDENTIFIED WITH mysql_native_password BY '1111
 customer         | customer_id
 
 
-![Table_id.png](https://github.com/Andrewsolo1969/11-2-hw/blob/main//img/Table_id.png)
+![Table_id.png](https://github.com/Andrewsolo1969/12-2-hw/blob/main//img/Table_id.png)
 
 
