@@ -1,99 +1,62 @@
-# 12-2-hw
 
-# Домашнее задание к занятию "11.2 «Кеширование Redis/memcached»" - Соловьёв Андрей SYS-18
+# Домашнее задание к занятию "12.2 «Кеширование Redis/memcached»" - Соловьёв Андрей SYS-18
 
 ---
 
-Работа была выполнена на виртуальной машине с Linux Mint, организованной с помощью Oracle VM VirtualBox.
+Работа была выполнена на виртуальной машине с Linux Lite 6.4
 
 
-
-## Задание 1. Кеширование
-
-Приведите примеры проблем, которые может решить кеширование.Приведите примеры проблем, которые может решить кеширование.
+## Задание 1
 
 
-Из материалов презентации:
+1.1. Поднимите чистый инстанс MySQL версии 8.0+. Можно использовать локальный сервер или контейнер Docker.
 
-- Повышение производительности за счет складывания в кэш данных, к которым чаще всего происходит обращение;
+![mysql_active.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/mysql_active.png)
 
-- Увеличение скорости ответа;
+1.2. Создайте учётную запись sys_temp.
 
-- Экономия ресурсов базы данных, например, применяя кэширование тяжелых запросов;
+![sys_temp_created.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/sys_temp_created.png)
 
-- Сглаживание бустов трафика, чтобы переживать резкое увеличение (скачки) трафика.
+1.3. Выполните запрос на получение списка пользователей в базе данных. (скриншот)
 
+![user_list.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/user_list.png)
 
+1.4. Дайте все права для пользователя sys_temp.
 
-## Задание 2. Memcached
+![PRIVILEGES.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/PRIVILEGES.png)
 
-Установите и запустите memcached.
+1.5. Выполните запрос на получение списка прав для пользователя sys_temp. (скриншот)
 
-Приведите скриншот systemctl status memcached, где будет видно, что memcached запущен.
+![show_priv.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/show_priv.png)
 
+1.6. Переподключитесь к базе данных от имени sys_temp.
 
-memcached установлен  -  apt install memcached
+ALTER USER 'sys_temp'@'localhost' IDENTIFIED WITH mysql_native_password BY '1111';
 
-и запущен - systemctl status memcached
+![alter_user.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/alter_user.png)
 
-![memcached started.png](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/memcached_started.PNG)
+1.6-7 По ссылке https://downloads.mysql.com/docs/sakila-db.zip скачал дамп базы данных и Восстановил дамп в базу данных.Sakila
 
+![restore.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/restore.png)
 
-## Задание 3. Удаление по TTL в Memcached
-
-Запишите в memcached несколько ключей с любыми именами и значениями, для которых выставлен TTL 5.
-
-Приведите скриншот, на котором видно, что спустя 5 секунд ключи удалились из базы.
-
-Ключ с TTL 20 - видно, что ключ в базе ещё присутствует.
+![FULL_TABLES.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/FULL_TABLES.png)
 
 
-![key_ttl_20](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/key_ttl_20.PNG)
+1.8. При работе в IDE сформируйте ER-диаграмму получившейся базы данных. При работе в командной строке используйте команду для получения всех таблиц базы данных. (скриншот)
+
+![diagram.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/diagram.png)
+
+![TABLES.png](https://github.com/Andrewsolo1969/12-2-hw/blob/master/img/TABLES.png)
 
 
-Ключ с TTL 5 - видно, что ключ удалился из базы.
+## Задание 2
+
+Составьте таблицу, используя любой текстовый редактор или Excel, в которой должно быть два столбца: в первом должны быть названия таблиц восстановленной базы, во втором названия первичных ключей этих таблиц. Пример: (скриншот/текст)
+
+Название таблицы | Название первичного ключа
+customer         | customer_id
 
 
-![key_ttl_5](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/key_ttl_5.PNG)
+![Table_id.png](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/Table_id.png)
 
 
-
-## Задание 4. Запись данных в Redis
-
-Запишите в Redis несколько ключей с любыми именами и значениями.
-
-Через redis-cli достаньте все записанные ключи и значения из базы, приведите скриншот этой операции.
-
-Redis установлен 
-
-
-![Redis_installed](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/Redis_installed.PNG)
-
-
-и запущен
-
-
-![Redis_started](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/Redis_started.PNG)
-
-
-Redis_cli
-
-![redis_cli](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/redis_cli.PNG)
-
-
-Запись ключей через redis-cli и поиск ключей в хранилище данных.
-
-![Redis_keys](https://github.com/Andrewsolo1969/11-2-hw/blob/master/img/Redis_keys.PNG)
-
-
-
-
-
-
-
-
-
-
-
-
- 
